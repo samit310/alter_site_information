@@ -1,0 +1,5 @@
+name: 'Alter Site Information'
+type: module
+description: 'Alter the site information, as well as provides the JSON representation of a given node with the content type "page"'
+core: 8.x
+package: 'Custom'

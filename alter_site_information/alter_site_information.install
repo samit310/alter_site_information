@@ -1,0 +1,12 @@
+<?php
+/**
+ * @file
+ * Contains alter_site_information.install.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function alter_site_information_uninstall() {
+  \Drupal::configFactory()->getEditable('system.site')->clear('siteapikey')->save();
+}

@@ -1,0 +1,7 @@
+services:
+  # Alter site_information route with RouteSubscriberBase.
+  alter_site_information.site_information:
+    class: Drupal\alter_site_information\EventSubscriber\AlterSiteInformation
+    arguments: []
+    tags:
+      - { name: event_subscriber }
