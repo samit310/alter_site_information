@@ -80,6 +80,16 @@ class SiteApiSiteInformationForm extends SiteInformationForm {
       '#required' => TRUE,
     ];
 
+    /*
+     * Update Submit button text.
+     * Inherit ['actions']['submit'] Defined int ConfigFormBase.php.
+     */
+    $form['actions']['submit'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Update Configuration'),
+      '#button_type' => 'primary',
+    ];
+
     return $form;
   }
 
