@@ -1,5 +1,5 @@
 # alter_site_information
-Alter the site information, as well as provides the JSON representation of a given node with the content type "page"
+Altering the site information(/admin/config/system/site-information), as well as provides the JSON representation of a given node with the content type "page, article"
 
 List of resources;
 
