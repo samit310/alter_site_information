@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class ApiPageJson.
+ *
+ * Returns nodes to JSON Format.
  */
 class ApiPageJson extends ControllerBase {
 
@@ -61,7 +63,10 @@ class ApiPageJson extends ControllerBase {
      * The API key should be match.
      * The node object should be page type.
      */
-    if ($site_config->get('siteapikey') == $siteapikey && $node->bundle() == 'page') {
+    if ($site_config->get('siteapikey') == $siteapikey && in_array($node->bundle(), [
+      'page',
+      'article',
+    ])) {
       $allow_access = TRUE;
     }
     return AccessResult::allowedIf($allow_access);
@@ -78,7 +83,7 @@ class ApiPageJson extends ControllerBase {
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   Node in Json format.
    */
-  public function pageJson($siteapikey, NodeInterface $node) {
+  public function pageJson($siteapikey, NodeInterface $node): JsonResponse {
     return new JsonResponse([
       'data' => [
         'id' => $node->id(),

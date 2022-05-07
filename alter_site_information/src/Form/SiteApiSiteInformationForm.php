@@ -13,6 +13,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class SiteApiSiteInformationForm.
+ *
+ * Alter/Add new fields to system_site_information_settings form.
  */
 class SiteApiSiteInformationForm extends SiteInformationForm {
 
@@ -66,18 +68,17 @@ class SiteApiSiteInformationForm extends SiteInformationForm {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
     $site_config = $this->config('system.site');
-
     $form['site_api_key'] = [
       '#type' => 'details',
-      '#title' => t('Site API Key'),
+      '#title' => $this->t('Site API Key'),
       '#open' => TRUE,
     ];
     $form['site_api_key']['api_key'] = [
       '#type' => 'textfield',
-      '#title' => t('API Key'),
-      '#default_value' => $site_config->get('siteapikey') ?? $this->t('No API Key yet'),
-      '#description' => $this->t('The API key used to provides the JSON representation of a given node with the content type "page"'),
-      '#required' => TRUE,
+      '#title' => $this->t('API Key'),
+      '#default_value' => $site_config->get('siteapikey'),
+      '#description' => $this->t('The API key used to provides the JSON representation of a given node with the content type "page, article". Special character are not allowed.'),
+      '#attributes' => ['placeholder' => $this->t('No API Key is set')],
     ];
 
     /*
@@ -97,8 +98,8 @@ class SiteApiSiteInformationForm extends SiteInformationForm {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    if ($form_state->getValue('api_key') == $this->t('No API Key yet')) {
-      $form_state->setErrorByName('api_key', $this->t("No API Key yet"));
+    if (preg_match('/[^a-zA-Z\d]/', $form_state->getValue('api_key'))) {
+      $form_state->setErrorByName('api_key', $this->t("API Key is not valid"));
     }
     parent::validateForm($form, $form_state);
   }
@@ -108,12 +109,13 @@ class SiteApiSiteInformationForm extends SiteInformationForm {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Save siteapikey configuration.
+    $api_key = $form_state->getValue('api_key');
     $this->config('system.site')
-      ->set('siteapikey', $form_state->getValue('api_key'))
+      ->set('siteapikey', $api_key)
       ->save();
 
     // Display success message to user.
-    $this->messenger->addMessage($this->t("The Site API Key has been saved with %api_key", ['%api_key' => $form_state->getValue('api_key')]));
+    $this->messenger->addMessage($this->t("The Site API Key has been saved with %api_key", ['%api_key' => $api_key]));
 
     parent::submitForm($form, $form_state);
   }

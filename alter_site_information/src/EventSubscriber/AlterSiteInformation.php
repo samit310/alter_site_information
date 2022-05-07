@@ -7,6 +7,8 @@ use Symfony\Component\Routing\RouteCollection;
 
 /**
  * Class AlterSiteInformation.
+ *
+ * Event Subscriber to alter system.site_information_settings route.
  */
 class AlterSiteInformation extends RouteSubscriberBase {
 

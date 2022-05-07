@@ -1,5 +1,5 @@
 alter_site_information.page_json:
-  path: 'page_json/{siteapikey}/{node}'
+  path: 'page-json/{siteapikey}/{node}'
   defaults:
     _controller: '\Drupal\alter_site_information\Controller\ApiPageJson::pageJson'
     _title: 'Api Page Json'
